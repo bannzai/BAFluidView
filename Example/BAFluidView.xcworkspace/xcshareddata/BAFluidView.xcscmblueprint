@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "135670503F899053A0744AD90D049E31E09F813C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "135670503F899053A0744AD90D049E31E09F813C" : 9223372036854775807,
+    "739F0B9BDE1C67CF29B6A9B143CC7AE963E217AB" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7EB0EF95-EAEF-4239-B411-8783EA4DC6D4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "135670503F899053A0744AD90D049E31E09F813C" : "BAFluidView\/",
+    "739F0B9BDE1C67CF29B6A9B143CC7AE963E217AB" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "BAFluidView",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Example\/BAFluidView.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:antiguab\/BAFluidView.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "135670503F899053A0744AD90D049E31E09F813C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:bannzai\/SoapDemo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "739F0B9BDE1C67CF29B6A9B143CC7AE963E217AB"
+    }
+  ]
+}

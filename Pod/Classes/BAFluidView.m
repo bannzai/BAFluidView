@@ -149,7 +149,7 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
     //the view is being added
     //may also need to adjust tilt since CMMotion only has orinigal refernece frame
     if(self.roll){
-        [self updateRollAdjustmentBasedOnOrientation];
+        
     }
     [self startAnimation];
     
@@ -167,7 +167,6 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
         //still has the frame of the old orientation.
         [self stopAnimation];
         [self reInitializeLayer];
-        [self updateRollAdjustmentBasedOnOrientation];
         [self startAnimation];
     }
 }
@@ -468,11 +467,11 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
     CGFloat roll = atan2(2*(quat.y*quat.w - quat.x*quat.z), 1 - 2*quat.y*quat.y - 2*quat.z*quat.z);
     
     //limiting tilt
-    if((roll + self.rollOrientationAdjustment)< -1){
-        roll = -1;
-    } else if((roll + self.rollOrientationAdjustment)	 > 1){
-        roll = 1;
-    }
+//    if((roll + self.rollOrientationAdjustment)< -1){
+//        roll = -1;
+//    } else if((roll + self.rollOrientationAdjustment)	 > 1){
+//        roll = 1;
+//    }
     self.roll = roll;
     
     //change wave direction if we're tilting in a different direction
@@ -489,12 +488,13 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
     
     //tilt relative to the phone
     CALayer *presentationLayer = self.rollLayer.presentationLayer;
-    CATransform3D zRotation = CATransform3DMakeRotation(-(self.roll+self.rollOrientationAdjustment)*0.7, 0, 0, 1.0);
+    CGFloat rotateValue = -(self.roll+self.rollOrientationAdjustment);
+    CATransform3D zRotation = CATransform3DMakeRotation(rotateValue, 0, 0, 1.0);
     CABasicAnimation *animateZRotation;
     animateZRotation = [CABasicAnimation animationWithKeyPath:@"transform"];
     animateZRotation.fromValue = [NSValue valueWithCATransform3D:presentationLayer.transform];
     animateZRotation.toValue = [NSValue valueWithCATransform3D:zRotation];
-    animateZRotation.duration = 0.4;
+    animateZRotation.duration = 0.3;
     animateZRotation.fillMode = kCAFillModeForwards;
     animateZRotation.removedOnCompletion = NO;
     [self.rollLayer addAnimation:animateZRotation forKey:@"tiltAnimation"];
@@ -598,31 +598,6 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
     return [NSArray arrayWithArray:values];
     
 }
-
-- (void)updateRollAdjustmentBasedOnOrientation {
-    
-    switch (self.orientation) {
-        case UIDeviceOrientationPortrait:
-        {
-            self.rollOrientationAdjustment = 0;
-            break;
-        }
-        case UIDeviceOrientationLandscapeLeft:
-        {
-            self.rollOrientationAdjustment = M_PI/2 ;
-            break;
-        }
-        case UIDeviceOrientationLandscapeRight:
-        {
-            self.rollOrientationAdjustment = -M_PI/2;
-            break;
-        }
-            
-        default:
-            break;
-    }
-}
-
 
 - (NSArray*)createAmplitudeOptions {
     NSMutableArray *tempAmplitudeArray = [[NSMutableArray alloc] init];

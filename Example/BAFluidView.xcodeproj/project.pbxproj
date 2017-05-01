@@ -227,12 +227,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5BF195388D20070C39A /* Build configuration list for PBXNativeTarget "BAFluidView" */;
 			buildPhases = (
-				907F679ABE81BD8617DE54F0 /* 📦 Check Pods Manifest.lock */,
+				907F679ABE81BD8617DE54F0 /* [CP] Check Pods Manifest.lock */,
 				6003F586195388D20070C39A /* Sources */,
 				6003F587195388D20070C39A /* Frameworks */,
 				6003F588195388D20070C39A /* Resources */,
-				B7438563C505C76408C61E66 /* 📦 Embed Pods Frameworks */,
-				8DE2DF2A36B57E7D2F222D97 /* 📦 Copy Pods Resources */,
+				B7438563C505C76408C61E66 /* [CP] Embed Pods Frameworks */,
+				8DE2DF2A36B57E7D2F222D97 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -247,12 +247,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "BAFluidView_Tests" */;
 			buildPhases = (
-				9E579E4986CF80011CF9FB30 /* 📦 Check Pods Manifest.lock */,
+				9E579E4986CF80011CF9FB30 /* [CP] Check Pods Manifest.lock */,
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
-				84A8BD0264E715E6DA9E4A78 /* 📦 Embed Pods Frameworks */,
-				F3CAB9EC5CA7E28CCC8F57C6 /* 📦 Copy Pods Resources */,
+				84A8BD0264E715E6DA9E4A78 /* [CP] Embed Pods Frameworks */,
+				F3CAB9EC5CA7E28CCC8F57C6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -274,6 +274,9 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Bryan Antigua";
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = ETCRPHYQG4;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -323,14 +326,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		84A8BD0264E715E6DA9E4A78 /* 📦 Embed Pods Frameworks */ = {
+		84A8BD0264E715E6DA9E4A78 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,14 +341,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BAFluidView_Tests/Pods-BAFluidView_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8DE2DF2A36B57E7D2F222D97 /* 📦 Copy Pods Resources */ = {
+		8DE2DF2A36B57E7D2F222D97 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,44 +356,44 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BAFluidView/Pods-BAFluidView-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		907F679ABE81BD8617DE54F0 /* 📦 Check Pods Manifest.lock */ = {
+		907F679ABE81BD8617DE54F0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		9E579E4986CF80011CF9FB30 /* 📦 Check Pods Manifest.lock */ = {
+		9E579E4986CF80011CF9FB30 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		B7438563C505C76408C61E66 /* 📦 Embed Pods Frameworks */ = {
+		B7438563C505C76408C61E66 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -398,14 +401,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BAFluidView/Pods-BAFluidView-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F3CAB9EC5CA7E28CCC8F57C6 /* 📦 Copy Pods Resources */ = {
+		F3CAB9EC5CA7E28CCC8F57C6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -552,6 +555,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = ETCRPHYQG4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BAFluidView/BAFluidView-Prefix.pch";
 				INFOPLIST_FILE = "BAFluidView/BAFluidView-Info.plist";
@@ -569,6 +573,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = ETCRPHYQG4;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "BAFluidView/BAFluidView-Prefix.pch";
 				INFOPLIST_FILE = "BAFluidView/BAFluidView-Info.plist";
