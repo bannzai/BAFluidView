@@ -433,9 +433,7 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
     
     //tilt relative to the phone
     CALayer *presentationLayer = self.rollLayer.presentationLayer;
-    
     CGFloat radians = atan2f(self.superview.transform.b, self.superview.transform.a);
-    
     CGFloat rotateValue = -self.roll - radians;
     
     CATransform3D zRotation = CATransform3DRotate(CATransform3DMakeAffineTransform(self.transform), rotateValue, 0, 0, 1.0);

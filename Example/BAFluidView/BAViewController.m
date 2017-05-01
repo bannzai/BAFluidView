@@ -68,12 +68,14 @@
     
     if (self.firstTimeLoading) {
         self.firstTimeLoading = NO;
-        self.exampleContainerView = [self nextBAFluidViewExample];
-        [self.view addSubview:self.exampleContainerView];
-        [self configureAnimator];
-        [self.view insertSubview:self.exampleContainerView belowSubview:self.swipeForNextExampleLabel];
+        for (int i; i < 10; i++) {
+            self.exampleContainerView = [self nextBAFluidViewExample];
+            [self.view addSubview:self.exampleContainerView];
+            [self configureAnimator];
+            [self.view insertSubview:self.exampleContainerView belowSubview:self.swipeForNextExampleLabel];
+        }
     }
-
+    
 }
 
 - (void)configureAnimator {
@@ -127,6 +129,7 @@
     //better contrast
     for (UILabel* label in self.titleLabels) {
         [label setTextColor:color];
+        label.textColor = UIColor.clearColor;
     }
 }
 
