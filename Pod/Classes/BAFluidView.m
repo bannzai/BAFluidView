@@ -426,15 +426,19 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
         [self updateHorizontalAnimation];
     }
     
-    [self addRotationAnimation];
+    [self addRotationAnimation: data];
 }
 
-- (void) addRotationAnimation {
+- (void) addRotationAnimation: (CMDeviceMotion *)data {
     
     //tilt relative to the phone
     CALayer *presentationLayer = self.rollLayer.presentationLayer;
-    CGFloat rotateValue = -(self.roll+self.rollOrientationAdjustment);
-    CATransform3D zRotation = CATransform3DMakeRotation(rotateValue, 0, 0, 1.0);
+    
+    CGFloat radians = atan2f(self.superview.transform.b, self.superview.transform.a);
+    
+    CGFloat rotateValue = -self.roll - radians;
+    
+    CATransform3D zRotation = CATransform3DRotate(CATransform3DMakeAffineTransform(self.transform), rotateValue, 0, 0, 1.0);
     CABasicAnimation *animateZRotation;
     animateZRotation = [CABasicAnimation animationWithKeyPath:@"transform"];
     animateZRotation.fromValue = [NSValue valueWithCATransform3D:presentationLayer.transform];
