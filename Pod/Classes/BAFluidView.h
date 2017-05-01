@@ -77,21 +77,6 @@ Changes the fill color of the wave animation
 extern NSString * const kBAFluidViewCMMotionUpdate;
 
 /**
- Returns an object that can create the fluid animation with the given wave properties. This init function lets you adjust the wave crest properties.
- 
- @param aRect
- Frame for the fluid object to fill
- @param maxAmplitude
- Max wave crest
- @param minAmplitude
- Min wave crest
- @param amplitudeIncrement
- Lets you chose the interval between Max and Min the random function will use
- @return a fluid view object with the properties defined
- */
-- (id)initWithFrame:(CGRect)aRect maxAmplitude:(int)maxAmplitude minAmplitude:(int)minAmplitude amplitudeIncrement:(int)amplitudeIncrement;
-
-/**
  Returns an object that can create the fluid animation with the given wave properties. This init function lets you adjust starting elevation. The other parameters have default values.
  
  @param aRect
@@ -101,23 +86,6 @@ extern NSString * const kBAFluidViewCMMotionUpdate;
  @return a fluid view object with the properties defined
  */
 - (id)initWithFrame:(CGRect)aRect startElevation:(NSNumber*)aStartElevation;
-
-/**
- Returns an object that can create the fluid animation with the given wave properties. This init function lets you adjust all the wave crest and fluid properties.
- 
- @param aRect
- Frame for the fluid object to fill
- @param maxAmplitude
- Max wave crest
- @param minAmplitude
- Min wave crest
- @param amplitudeIncrement
- Lets you chose the interval between Max and Min the random function will use
- @param startElevation
- The starting point of the fluid animation
- @return a fluid view object with the properties defined
- */
-- (id)initWithFrame:(CGRect)aRect maxAmplitude:(int)aMaxAmplitude minAmplitude:(int)aMinAmplitude amplitudeIncrement:(int)aAmplitudeIncrement startElevation:(NSNumber*)aStartElevation;
 
 /**
 This method lets you choose to what level you want the fluidVIew to increase or decrease to (based on starting elevation)
@@ -149,6 +117,5 @@ This method lets you choose to what level you want the fluidVIew to increase or 
 /**
 This method can set all the default values prior to start of animation
  */
-- (void)initialize;
 
 @end

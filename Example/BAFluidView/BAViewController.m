@@ -25,6 +25,20 @@
 #import "UIColor+ColorWithHex.h"
 #import <CoreMotion/CoreMotion.h>
 
+@interface BAContainerView : UIView
+
+@end
+
+@implementation BAContainerView
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    
+}
+
+@end
+
 @interface BAViewController ()
 
 @property (strong,nonatomic) UIDynamicAnimator *animator;
@@ -47,6 +61,7 @@
     self.firstTimeLoading = YES;
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+
 }
 
 - (void)viewDidLayoutSubviews {
@@ -54,12 +69,58 @@
     if (self.firstTimeLoading) {
         self.firstTimeLoading = NO;
         self.exampleContainerView = [self nextBAFluidViewExample];
+        [self.view addSubview:self.exampleContainerView];
+        [self configureAnimator];
         [self.view insertSubview:self.exampleContainerView belowSubview:self.swipeForNextExampleLabel];
     }
 
 }
 
+- (void)configureAnimator {
+    UIGravityBehavior *gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.exampleContainerView]];
+    [_animator addBehavior:gravityBehavior];
+    
+    UICollisionBehavior *collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.exampleContainerView]];
+    collisionBehavior.translatesReferenceBoundsIntoBoundary = YES;
+    [collisionBehavior addBoundaryWithIdentifier:@"collistionPoint" fromPoint:CGPointMake(0, 100) toPoint:CGPointMake(100, 50)];
+    [_animator addBehavior:collisionBehavior];
+    
+}
+
 #pragma mark - Gestures
+
+- (void)moveForContainerView:(CMAccelerometerData *)data {
+    if (!data) {
+        return;
+    }
+    
+    for (UIDynamicBehavior *behavior in _animator.behaviors) {
+        if (![behavior isMemberOfClass:[UIGravityBehavior class]]) {
+            continue;
+        }
+        
+        UIGravityBehavior *gravityBehavior = (UIGravityBehavior *)behavior;
+        gravityBehavior.gravityDirection = CGVectorMake(data.acceleration.x, -data.acceleration.y);
+    }
+    
+}
+
+//- (void)moveForContainerView:(CMGyroData *)data {
+//    if (!data) {
+//        return;
+//    }
+//    
+//    for (UIDynamicBehavior *behavior in _animator.behaviors) {
+//        if (![behavior isMemberOfClass:[UIGravityBehavior class]]) {
+//            continue;
+//        }
+//        
+//        UIGravityBehavior *gravityBehavior = (UIGravityBehavior *)behavior;
+//        gravityBehavior.gravityDirection = CGVectorMake(data.rotationRate.x, data.rotationRate.y);
+//    }
+//    
+//}
+
 
 - (void)changeTitleColor:(UIColor*)color {
     
@@ -69,7 +130,7 @@
     }
 }
 
--(BAFluidView*) nextBAFluidViewExample {
+-(UIView*) nextBAFluidViewExample {
     BAFluidView *fluidView;
     
     if(self.motionManager){
@@ -89,26 +150,49 @@
                                                                                   data forKey:@"data"];
                                                         [nc postNotificationName:kBAFluidViewCMMotionUpdate object:self userInfo:userInfo];
                                                     }];
+            
+//            [self.motionManager startGyroUpdatesToQueue:[NSOperationQueue mainQueue]
+//                                            withHandler:^(CMGyroData * _Nullable gyroData, NSError * _Nullable error) {
+//                                                
+//                                                [self moveForContainerView:gyroData];
+//            }];
+            
+            
+            [self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue]
+                                                     withHandler:^(CMAccelerometerData * _Nullable accelerometerData, NSError * _Nullable error) {
+                                                         [self moveForContainerView:accelerometerData];
+                                                     }
+             ];
         }
         
-        fluidView = [[BAFluidView alloc] initWithFrame:self.view.frame startElevation:@0.5];
-        fluidView.strokeColor = [UIColor whiteColor];
-        fluidView.fillColor = [UIColor colorWithHex:0x2e353d];
+        
+        CGFloat edge = 200;
+        
+        BAContainerView *containerView = [[BAContainerView alloc] initWithFrame:CGRectMake(0, 0, edge, edge)];
+        
+        fluidView = [[BAFluidView alloc] initWithFrame:CGRectMake(0, 0, edge, edge) startElevation:@0.5];
+        fluidView.strokeColor = [UIColor redColor];
+        fluidView.fillColor = [UIColor blueColor];
         [fluidView keepStationary];
         [fluidView startAnimation];
         [fluidView startTiltAnimation];
-        [self changeTitleColor:[UIColor blueColor]];
+        fluidView.layer.borderWidth = 1;
+        fluidView.layer.borderColor = UIColor.blackColor.CGColor;
+        fluidView.layer.cornerRadius = edge / 2;
+        [self changeTitleColor:[UIColor greenColor]];
+        
+        [containerView addSubview:fluidView];
         
         UILabel *tiltLabel = [[UILabel alloc] init];
         tiltLabel.font =[UIFont fontWithName:@"LoveloBlack" size:36];
         tiltLabel.text = @"Tilt Phone!";
         tiltLabel.textColor = [UIColor whiteColor];
-        [fluidView addSubview:tiltLabel];
+        [containerView addSubview:tiltLabel];
         
         tiltLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [fluidView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-        [fluidView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeTop multiplier:1.0 constant:80]];
-        return fluidView;
+        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeTop multiplier:1.0 constant:80]];
+        return containerView;
     }
     
     

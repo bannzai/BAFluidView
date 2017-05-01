@@ -68,54 +68,6 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
 
 #pragma mark - Lifecycle
 
--  (id)initWithFrame:(CGRect)aRect maxAmplitude:(int)aMaxAmplitude minAmplitude:(int)aMinAmplitude amplitudeIncrement:(int)aAmplitudeIncrement
-{
-    self = [super initWithFrame:aRect];
-    
-    if (self)
-    {
-        [self initialize];
-        
-        //setting custom wave properties
-        self.maxAmplitude = aMaxAmplitude;
-        self.minAmplitude = aMinAmplitude;
-        self.amplitudeIncrement = aAmplitudeIncrement;
-        self.amplitudeArray = [self createAmplitudeOptions];
-    }
-    return self;
-}
-
--  (id)initWithFrame:(CGRect)aRect maxAmplitude:(int)aMaxAmplitude minAmplitude:(int)aMinAmplitude amplitudeIncrement:(int)aAmplitudeIncrement startElevation:(NSNumber*)aStartElevation
-{
-    self = [super initWithFrame:aRect];
-    
-    if (self)
-    {
-        [self initialize];
-        
-        //setting custom wave properties
-        self.maxAmplitude = aMaxAmplitude;
-        self.minAmplitude = aMinAmplitude;
-        self.amplitudeIncrement = aAmplitudeIncrement;
-        self.amplitudeArray = [self createAmplitudeOptions];
-        [self updateStartElevation:aStartElevation];;
-    }
-    return self;
-}
-
-
--  (id)initWithFrame:(CGRect)aRect
-{
-    self = [super initWithFrame:aRect];
-    
-    if (self)
-    {
-        [self initialize];
-        
-    }
-    return self;
-}
-
 -  (id)initWithFrame:(CGRect)aRect startElevation:(NSNumber*)aStartElevation
 {
     self = [super initWithFrame:aRect];
@@ -146,11 +98,6 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
         return;
     }
     
-    //the view is being added
-    //may also need to adjust tilt since CMMotion only has orinigal refernece frame
-    if(self.roll){
-        
-    }
     [self startAnimation];
     
 }
@@ -169,6 +116,7 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
         [self reInitializeLayer];
         [self startAnimation];
     }
+    
 }
 
 
@@ -237,8 +185,6 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
     // create the wave layer and make it blue
     self.clipsToBounds = YES;
     self.lineLayer = [CAShapeLayer layer];
-    self.lineLayer.fillColor = [UIColor colorWithHex:0x6BB9F0].CGColor;
-    self.lineLayer.strokeColor = [UIColor colorWithHex:0x6BB9F0].CGColor;
     
     //default wave properties
     self.fillAutoReverse = YES;
@@ -454,7 +400,6 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
     [self.lineLayer removeAnimationForKey:@"waveCrestAnimation"];
     self.waveCrestAnimation.values = [self getBezierPathValues];
     [self.lineLayer addAnimation:self.waveCrestAnimation forKey:@"waveCrestAnimation"];
-    
 }
 
 - (void)addTiltAnimations:(NSNotification *)note {
