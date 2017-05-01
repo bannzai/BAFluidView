@@ -25,20 +25,6 @@
 #import "UIColor+ColorWithHex.h"
 #import <CoreMotion/CoreMotion.h>
 
-@interface BAContainerView : UIView
-
-@end
-
-@implementation BAContainerView
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    
-}
-
-@end
-
 @interface BAViewController ()
 
 @property (strong,nonatomic) UIDynamicAnimator *animator;
@@ -64,7 +50,7 @@
     
     self.views = [NSMutableArray new];
     
-    self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
 
 }
 
