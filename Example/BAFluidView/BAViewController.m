@@ -58,12 +58,14 @@ self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     
     if (self.firstTimeLoading) {
         self.firstTimeLoading = NO;
-        NSArray *edges = @[@100, @50, @30, @100, @80, @90, @200, @70, @60, @20];
+        NSArray *edges = @[@200, @50, @30, @100, @80, @90, @100, @70, @60, @20];
         for (int i = 0; i < edges.count; i++) {
             CGFloat edge = ((NSNumber *)edges[i]).floatValue;
             UIView *view = [self nextBAFluidViewExample:edge];
-            [self.view addSubview:view];
             [self.views addObject:view];
+        }
+        for (UIView *view in self.views) {
+            [self.view addSubview:view];
         }
         [self configureAnimator];
     }
@@ -168,7 +170,7 @@ self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
         [fluidView startTiltAnimation];
         fluidView.layer.borderWidth = 1;
         fluidView.layer.borderColor = UIColor.blackColor.CGColor;
-//        fluidView.layer.cornerRadius = edge / 2;
+        fluidView.layer.cornerRadius = edge / 2;
         [self changeTitleColor:[UIColor greenColor]];
         
         

@@ -236,7 +236,7 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
         [self.layer addSublayer:self.rollLayer];
     }
     
-    self.rollLayer.frame = self.frame;
+    self.rollLayer.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     
     //listen for the device manager
     [[NSNotificationCenter defaultCenter] addObserver:self
