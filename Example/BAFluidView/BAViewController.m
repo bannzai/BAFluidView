@@ -47,6 +47,8 @@
 
 @property(strong,nonatomic) CMMotionManager *motionManager;
 
+@property (nonatomic) NSMutableArray<UIView *> *views;
+
 @end
 
 @implementation BAViewController
@@ -60,6 +62,8 @@
     
     self.firstTimeLoading = YES;
     
+    self.views = [NSMutableArray new];
+    
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
 
 }
@@ -68,23 +72,25 @@
     
     if (self.firstTimeLoading) {
         self.firstTimeLoading = NO;
-        for (int i; i < 10; i++) {
-            self.exampleContainerView = [self nextBAFluidViewExample];
-            [self.view addSubview:self.exampleContainerView];
-            [self configureAnimator];
-            [self.view insertSubview:self.exampleContainerView belowSubview:self.swipeForNextExampleLabel];
+        NSArray *edges = @[@100, @50, @30, @100, @80, @90, @200, @70, @60, @20];
+        for (int i = 0; i < edges.count; i++) {
+            CGFloat edge = ((NSNumber *)edges[i]).floatValue;
+            UIView *view = [self nextBAFluidViewExample:edge];
+            [self.view addSubview:view];
+            [self.views addObject:view];
         }
+        [self configureAnimator];
     }
     
 }
 
 - (void)configureAnimator {
-    UIGravityBehavior *gravityBehavior = [[UIGravityBehavior alloc] initWithItems:@[self.exampleContainerView]];
+    UIGravityBehavior *gravityBehavior = [[UIGravityBehavior alloc] initWithItems:self.views];
     [_animator addBehavior:gravityBehavior];
     
-    UICollisionBehavior *collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.exampleContainerView]];
+    UICollisionBehavior *collisionBehavior = [[UICollisionBehavior alloc] initWithItems:self.views];
     collisionBehavior.translatesReferenceBoundsIntoBoundary = YES;
-    [collisionBehavior addBoundaryWithIdentifier:@"collistionPoint" fromPoint:CGPointMake(0, 100) toPoint:CGPointMake(100, 50)];
+    collisionBehavior.collisionMode = UICollisionBehaviorModeEverything;
     [_animator addBehavior:collisionBehavior];
     
 }
@@ -129,11 +135,10 @@
     //better contrast
     for (UILabel* label in self.titleLabels) {
         [label setTextColor:color];
-        label.textColor = UIColor.clearColor;
     }
 }
 
--(UIView*) nextBAFluidViewExample {
+-(UIView*) nextBAFluidViewExample:(CGFloat)edge {
     BAFluidView *fluidView;
     
     if(self.motionManager){
@@ -169,11 +174,7 @@
         }
         
         
-        CGFloat edge = 200;
-        
-        BAContainerView *containerView = [[BAContainerView alloc] initWithFrame:CGRectMake(0, 0, edge, edge)];
-        
-        fluidView = [[BAFluidView alloc] initWithFrame:CGRectMake(0, 0, edge, edge) startElevation:@0.5];
+        fluidView = [[BAFluidView alloc] initWithFrame:CGRectMake(edge, edge, edge, edge) startElevation:@0.5];
         fluidView.strokeColor = [UIColor redColor];
         fluidView.fillColor = [UIColor blueColor];
         [fluidView keepStationary];
@@ -181,21 +182,20 @@
         [fluidView startTiltAnimation];
         fluidView.layer.borderWidth = 1;
         fluidView.layer.borderColor = UIColor.blackColor.CGColor;
-        fluidView.layer.cornerRadius = edge / 2;
+//        fluidView.layer.cornerRadius = edge / 2;
         [self changeTitleColor:[UIColor greenColor]];
         
-        [containerView addSubview:fluidView];
         
         UILabel *tiltLabel = [[UILabel alloc] init];
         tiltLabel.font =[UIFont fontWithName:@"LoveloBlack" size:36];
         tiltLabel.text = @"Tilt Phone!";
         tiltLabel.textColor = [UIColor whiteColor];
-        [containerView addSubview:tiltLabel];
+        [fluidView addSubview:tiltLabel];
         
         tiltLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeTop multiplier:1.0 constant:80]];
-        return containerView;
+        [fluidView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+        [fluidView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeTop multiplier:1.0 constant:edge / 3]];
+        return fluidView;
     }
     
     
