@@ -58,7 +58,7 @@ self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
     
     if (self.firstTimeLoading) {
         self.firstTimeLoading = NO;
-        NSArray *edges = @[@200, @50, @30, @100, @80, @90, @100, @70, @60, @20];
+        NSArray *edges = @[@100, @200, @50, @80, @90];
         for (int i = 0; i < edges.count; i++) {
             CGFloat edge = ((NSNumber *)edges[i]).floatValue;
             UIView *view = [self nextBAFluidViewExample:edge];
@@ -147,13 +147,6 @@ self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
                                                         [nc postNotificationName:kBAFluidViewCMMotionUpdate object:self userInfo:userInfo];
                                                     }];
             
-//            [self.motionManager startGyroUpdatesToQueue:[NSOperationQueue mainQueue]
-//                                            withHandler:^(CMGyroData * _Nullable gyroData, NSError * _Nullable error) {
-//                                                
-//                                                [self moveForContainerView:gyroData];
-//            }];
-            
-            
             [self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue mainQueue]
                                                      withHandler:^(CMAccelerometerData * _Nullable accelerometerData, NSError * _Nullable error) {
                                                          [self moveForContainerView:accelerometerData];
@@ -161,8 +154,9 @@ self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
              ];
         }
         
+        UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(edge, edge, edge, edge)];
         
-        fluidView = [[BAFluidView alloc] initWithFrame:CGRectMake(edge, edge, edge, edge) startElevation:@0.5];
+        fluidView = [[BAFluidView alloc] initWithFrame:CGRectMake(0, 0, edge, edge) startElevation:@0.5];
         fluidView.strokeColor = [UIColor redColor];
         fluidView.fillColor = [UIColor blueColor];
         [fluidView keepStationary];
@@ -173,17 +167,18 @@ self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
         fluidView.layer.cornerRadius = edge / 2;
         [self changeTitleColor:[UIColor greenColor]];
         
+        [containerView addSubview:fluidView];
         
         UILabel *tiltLabel = [[UILabel alloc] init];
         tiltLabel.font =[UIFont fontWithName:@"LoveloBlack" size:36];
         tiltLabel.text = @"Tilt Phone!";
         tiltLabel.textColor = [UIColor whiteColor];
-        [fluidView addSubview:tiltLabel];
+        [containerView addSubview:tiltLabel];
         
         tiltLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [fluidView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-        [fluidView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeTop multiplier:1.0 constant:edge / 3]];
-        return fluidView;
+        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
+        [containerView addConstraint:[NSLayoutConstraint constraintWithItem:tiltLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:fluidView attribute:NSLayoutAttributeTop multiplier:1.0 constant:edge / 3]];
+        return containerView;
     }
     
     

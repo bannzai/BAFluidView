@@ -193,7 +193,7 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
     self.maxAmplitude = 40;
     self.minAmplitude = 5;
     self.startingAmplitude = self.maxAmplitude;
-    self.waveLength = CGRectGetWidth(self.rootView.frame);
+    self.waveLength = self.frame.size.height;
     self.startElevation = @0;
     self.fillDuration = 7.0;
     self.finalX = 5*self.waveLength;
@@ -430,6 +430,14 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
 }
 
 - (void) addRotationAnimation: (CMDeviceMotion *)data {
+    self.transform = CGAffineTransformMake(
+                                           -self.superview.transform.a,
+                                           self.superview.transform.b,
+                                           -self.superview.transform.c,
+                                           self.superview.transform.d,
+                                           self.superview.transform.tx,
+                                           self.superview.transform.ty
+                                           );
     
     //tilt relative to the phone
     CALayer *presentationLayer = self.rollLayer.presentationLayer;
@@ -441,7 +449,7 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
     animateZRotation = [CABasicAnimation animationWithKeyPath:@"transform"];
     animateZRotation.fromValue = [NSValue valueWithCATransform3D:presentationLayer.transform];
     animateZRotation.toValue = [NSValue valueWithCATransform3D:zRotation];
-    animateZRotation.duration = 0.3;
+    animateZRotation.duration = 0.4;
     animateZRotation.fillMode = kCAFillModeForwards;
     animateZRotation.removedOnCompletion = NO;
     [self.rollLayer addAnimation:animateZRotation forKey:@"tiltAnimation"];
@@ -450,8 +458,7 @@ NSString * const kBAFluidViewCMMotionUpdate = @"BAFluidViewCMMotionUpdate";
 - (void)updateHorizontalAnimation {
     
     //shift from current position to start of reverse direction
-    CABasicAnimation *initialHorizontalAnimation =
-    [CABasicAnimation animationWithKeyPath:@"position.x"];
+    CABasicAnimation *initialHorizontalAnimation = [CABasicAnimation animationWithKeyPath:@"position.x"];
     
     CALayer* presentationLayer = self.lineLayer.presentationLayer;
     initialHorizontalAnimation.fromValue =@(presentationLayer.position.x);
